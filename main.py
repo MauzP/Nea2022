@@ -1,9 +1,11 @@
-import pygame, random, math, time
+import pygame, random, math, time, pygame.freetype
 
 #variables
 #width, height = 500, 400
 width, height = 775, 420
+pygame.init()
 pygame.display.set_caption('  Physikas')
+myfont = pygame.freetype.SysFont('Comic Sans MS', 20)
 screen = pygame.display.set_mode((width, height))
 background_colour = 130, 209, 209
 gravity = (math.pi, 0.02)
@@ -83,6 +85,10 @@ running = True
 selected_particle = None
 while running:
 	screen.fill(background_colour)
+	myfont.render_to(screen, (10, 10), "Gravity is " + str(gravity[1]), (0, 0, 0))
+	myfont.render_to(screen, (10, 40), "Drag is " + str(drag), (0, 0, 0))
+	myfont.render_to(screen, (10, 70), "Elasticity is " + str(elasticity), (0, 0, 0))
+	myfont.render_to(screen, (10, 100), "Density of Medium is " + str(mass_of_air), (0, 0, 0))
 	for particle in my_particles:
 		if selected_particle:
 			(mouseX, mouseY) = pygame.mouse.get_pos()
