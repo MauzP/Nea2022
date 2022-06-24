@@ -9,7 +9,7 @@ background_colour = 130, 209, 209
 gravity = (math.pi, 0.02)
 drag = 0.999
 wallasticity = 0.85
-elasticity = 1
+elasticity = 0.7
 mass_of_air = 0.2
 balls = ["ball1.png", "ball2.png" ,"ball3.png"]
 
@@ -37,16 +37,29 @@ def collide(p1, p2):
 	if distance < (p1.size)/2 + (p2.size)/2:
 		tangent = math.atan2(dy, dx)
 		angle = 0.5 * math.pi + tangent
-		angle1 = 2*tangent - p1.angle
-		angle2 = 2*tangent - p2.angle
-		speed1 = p2.speed*elasticity
-		speed2 = p1.speed*elasticity
+		angle1 = 2 * tangent - p1.angle
+		angle2 = 2 * tangent - p2.angle
+		speed1 = p2.speed * elasticity
+		speed2 = p1.speed * elasticity
 		(p1.angle, p1.speed) = (angle1, speed1)
 		(p2.angle, p2.speed) = (angle2, speed2)
 		p1.x += math.sin(angle)
 		p1.y -= math.cos(angle)
 		p2.x -= math.sin(angle)
 		p2.y += math.cos(angle)
+
+def objcollide(p, obj):
+	dx = p.x - obj.x
+	dy = p.y - obj.y
+	distance = math.hypot(dx, dy)
+	if distance < (p.size)/2 + (obj.width)/2:
+		tangent = math.atan2(dy, dx)
+		angle = 0.5 * math.pi + tangent
+		anglep = 2 * tangent - p.angle
+		speed = p.speed * elasticity
+		(p.angle, p.speed) = (anglep, speed)
+		p.x += math.sin(angle)
+		p.y -= math.cos(angle)
 
 #class for a physics object
 class Particle:

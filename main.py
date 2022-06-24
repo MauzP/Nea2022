@@ -18,7 +18,7 @@ for n in range(number_of_particles):
 number_of_obstacles = 1
 my_obstacles = []
 for n in range(number_of_obstacles):
-	size = (random.randint(20,50),random.randint(20,50))
+	size = (random.randint(50,300),random.randint(50,300))
 	position = (random.randint(0,width),random.randint(0,height))
 	obstacle = Obstacle(position, size)
 	my_obstacles.append(obstacle)
@@ -44,12 +44,16 @@ while running:
 		selected_particle.speed = math.hypot(dx, dy) * 0.1
 		
 	screen.fill(background_colour)
+	myfont.render_to(screen, (40, 350), str(int(particle.speed)), (0, 0, 0))
+
 	
 	for i, particle in enumerate(my_particles):
 		particle.move()
 		particle.bounce()
 		for particle2 in my_particles[i+1:]:
 			collide(particle, particle2)
+		for obj in my_obstacles:
+			objcollide(particle, obj)
 		particle.display()
 
 	for i, obstacle in enumerate(my_obstacles):
