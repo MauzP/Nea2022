@@ -7,16 +7,21 @@ myfont = pygame.freetype.Font("EBGaramond-Regular.ttf", 20)
 myfont2 = pygame.freetype.Font("EBGaramond-Regular.ttf", 70)
 screen = pygame.display.set_mode((width, height))
 background_colour = 130, 209, 209
-gravity = (math.pi, 0.1)
+gravity = (math.pi, 0.2)
 drag = 0.999
 wallasticity = 0.85
 elasticity = 0.85
 mass_of_air = 0.2
-balls = ["ball1.png", "ball2.png" ,"ball3.png"]
 score = 0
 
+def loadimg(img):
+  return pygame.image.load(img).convert_alpha()
+
+irithyll = loadimg("Irithyll.jpg")
+irithyll = pygame.transform.scale(irithyll, (width, height))
+
 def gameover():
-	death = pygame.image.load("dead.png").convert_alpha()
+	death = loadimg("dead.png")
 	death = pygame.transform.scale(death, (width, height/2))
 	screen.blit(death, (0, 0))		
 
@@ -81,10 +86,9 @@ class Particle:
 		self.speed = 0.5
 		self.angle = 0
 		self.drag = (self.mass/(self.mass + mass_of_air)) ** self.size
-		self.image = balls[2]
-		self.horizontal = 0.5
+		self.horizontal = 1
 	def display(self):
-		ball = pygame.image.load(self.image).convert_alpha()
+		ball = loadimg("ball.png")
 		ball = pygame.transform.scale(ball, (self.size, self.size))
 		screen.blit(ball, (int(self.x), int(self.y)))		
 	def move(self):
@@ -125,7 +129,7 @@ class Obstacle:
 	def __init__(self, position, size):
 		self.x, self.y = position
 		self.radius = size
-		self.colour = (255, 0, 0)
+		self.colour = (105, 155, 224)
 		self.thickness = 1000
 	def display(self):
 		pygame.draw.circle(screen, self.colour, (self.x,self.y), self.radius, self.thickness)
@@ -142,4 +146,3 @@ class Goal:
 	def display(self):
 		pygame.draw.rect(screen, self.colour, self.rect)
 		myfont.render_to(screen, ((self.x + self.width/2)-10, (height-25)), str(self.score), (255, 255-self.g, 255-self.b))
-

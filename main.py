@@ -2,7 +2,7 @@ import pygame, random, math, time, pygame.freetype
 from particleFuncs import * 
 pygame.init()
 
-#creates the specified number of particles
+#initializes the specified number of particles
 number_of_particles = 1
 my_particles = []
 for n in range(number_of_particles):
@@ -10,16 +10,18 @@ for n in range(number_of_particles):
 	density = random.randint(1, 5)
 	x = width / 2
 	y = 20
-	particle = Particle((x, y), size, density * size ** 2)
+	particle = Particle((x, y), size, density * size ** 2,)
 	particle.speed = 0
 	particle.angle = random.uniform(0, math.pi*2)
 	my_particles.append(particle)
 
+#defines the positions of obstacles
 number_of_obstacles = 30
 obx = [30,150,270,390,510,630,750]
 oby = [150,250,350,450,550,650]
 layer = 0
 column = 0
+#initializes the specified number of obstacles
 my_obstacles = []
 for n in range(number_of_obstacles):
 	for i in range(len(oby)):
@@ -32,6 +34,7 @@ for n in range(number_of_obstacles):
 			obstacle = Obstacle(position, size)
 			my_obstacles.append(obstacle)
 
+#initializes the specified number of goals
 goaln = [[0,75,225,350,425,550,700,800], [75,150,125,75,125,150,75], [10,25,50,100,50,25,10]]
 my_goals = []
 for n in range(7):
@@ -47,9 +50,11 @@ timegone = False
 while running:
 	for event in pygame.event.get():
 		if event.type == pygame.KEYDOWN:
+			#determines when to drop the ball
 			if event.key == pygame.K_SPACE:
 				activated = True
 				for i, particle in enumerate(my_particles):
+					#drops the ball at an angle
 					if particle.horizontal > 0:
 						particle.angle, particle.speed = addVectors((particle.angle, particle.speed), (math.pi/2, particle.horizontal))
 					else:
@@ -72,8 +77,8 @@ while running:
 	if (pygame.time.get_ticks()/1000) >= 60:
 		timegone = True
 	
-	if not timegone:
-		screen.fill(background_colour)
+	if not timegone:	
+		screen.blit(irithyll, (0, 0))
 		myfont.render_to(screen, (40, 0), "YOU HAVE 60 SECONDS", (0, 0, 0))
 		myfont.render_to(screen, (40, 60), "time "+str(pygame.time.get_ticks()/1000), (0, 0, 0))
 		myfont.render_to(screen, (40, 80), "score "+str(int(score)), (0, 0, 0))
@@ -92,6 +97,7 @@ while running:
 							score = score + goaln[2][i]
 					particle.x = width / 2
 					particle.y = 20
+					particle.speed = 0
 					activated = False
 			else:
 				particle.horizontalm()
@@ -107,6 +113,7 @@ while running:
 		screen.fill((0,0,0))
 		gameover()
 		myfont2.render_to(screen, (225, 500), "SCORE "+str(int(score)), (97, 33, 33))
+	pygame.time.Clock().tick()
 	pygame.display.flip()
 
 pygame.quit ()
