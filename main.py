@@ -80,7 +80,7 @@ while running:
 	if not timegone:	
 		screen.blit(irithyll, (0, 0))
 		myfont.render_to(screen, (40, 0), "YOU HAVE 60 SECONDS", (0, 0, 0))
-		myfont.render_to(screen, (40, 60), "time "+str(pygame.time.get_ticks()/1000), (0, 0, 0))
+		myfont.render_to(screen, (40, 60), "time "+str(math.floor((pygame.time.get_ticks()/1000))), (0, 0, 0))
 		myfont.render_to(screen, (40, 80), "score "+str(int(score)), (0, 0, 0))
 		
 		for i, particle in enumerate(my_particles):
@@ -115,5 +115,10 @@ while running:
 		myfont2.render_to(screen, (225, 500), "SCORE "+str(int(score)), (97, 33, 33))
 	pygame.time.Clock().tick()
 	pygame.display.flip()
+
+
+
+
+
 
 pygame.quit ()

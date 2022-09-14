@@ -10,7 +10,7 @@ background_colour = 130, 209, 209
 gravity = (math.pi, 0.2)
 drag = 0.999
 wallasticity = 0.85
-elasticity = 0.85
+elasticity = 0.9
 mass_of_air = 0.2
 score = 0
 
