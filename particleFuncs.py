@@ -5,12 +5,13 @@ pygame.init()
 pygame.display.set_caption("  Physikas")
 myfont = pygame.freetype.Font("EBGaramond-Regular.ttf", 20)
 myfont2 = pygame.freetype.Font("EBGaramond-Regular.ttf", 70)
+myfont3 = pygame.freetype.Font("EBGaramond-Regular.ttf", 30)
 screen = pygame.display.set_mode((width, height))
 background_colour = 130, 209, 209
 gravity = (math.pi, 0.2)
 drag = 0.999
 wallasticity = 0.85
-elasticity = 0.9
+elasticity = 0.85
 mass_of_air = 0.2
 score = 0
 
@@ -25,6 +26,26 @@ def gameover():
 	death = pygame.transform.scale(death, (width, height/2))
 	screen.blit(death, (0, 0))		
 
+def quicksort(a, loc, pivot):
+	const = loc
+	lastlow = loc
+	for i in range(pivot-loc):
+		if a[loc] <= a[pivot]:
+			temp = a[lastlow]
+			a[lastlow] = a[loc]
+			a[loc] = temp
+			loc = loc + 1
+			lastlow = lastlow + 1
+		elif a[loc] > a[pivot]:
+			loc = loc + 1
+	temp = a[lastlow]
+	a[lastlow] = a[pivot]
+	a[pivot] = temp
+	if (lastlow-1) > const:
+		quicksort(a, const, lastlow-1)
+	if pivot > (lastlow+1):
+		quicksort(a, lastlow+1, pivot)
+	
 #function to add a vector to an object
 def addVectors(inp1, inp2):
 	angle1, length1 = inp1

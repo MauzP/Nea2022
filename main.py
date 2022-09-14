@@ -47,6 +47,7 @@ running = True
 selected_particle = None
 activated = False
 timegone = False
+hasleadered = False
 while running:
 	for event in pygame.event.get():
 		if event.type == pygame.KEYDOWN:
@@ -66,13 +67,6 @@ while running:
 			selected_particle = findParticle(my_particles, mouseX, mouseY)
 		elif event.type == pygame.MOUSEBUTTONUP:		
 			selected_particle = None
-			
-	"""if selected_particle:
-		(mouseX, mouseY) = pygame.mouse.get_pos()
-		dx = mouseX - selected_particle.x
-		dy = mouseY - selected_particle.y
-		selected_particle.angle = 0.5*math.pi + math.atan2(dy, dx)
-		selected_particle.speed = math.hypot(dx, dy) * 0.1"""
 
 	if (pygame.time.get_ticks()/1000) >= 60:
 		timegone = True
@@ -81,7 +75,7 @@ while running:
 		screen.blit(irithyll, (0, 0))
 		myfont.render_to(screen, (40, 0), "YOU HAVE 60 SECONDS", (0, 0, 0))
 		myfont.render_to(screen, (40, 60), "time "+str(math.floor((pygame.time.get_ticks()/1000))), (0, 0, 0))
-		myfont.render_to(screen, (40, 80), "score "+str(int(score)), (0, 0, 0))
+		myfont.render_to(screen, (40, 80), "score "+str(score), (0, 0, 0))
 		
 		for i, particle in enumerate(my_particles):
 			if activated:
@@ -112,13 +106,32 @@ while running:
 	if timegone:
 		screen.fill((0,0,0))
 		gameover()
-		myfont2.render_to(screen, (225, 500), "SCORE "+str(int(score)), (97, 33, 33))
+		myfont2.render_to(screen, (225, 400), "SCORE "+str(score), (97, 33, 33))
+
+		if hasleadered == False:
+			leader = open("leaderboard.txt", "a")
+			leader.write(str(score) + "\n")
+			leader.close()
+
+			leader = open("leaderboard.txt", "r")
+			scores = []
+			for line in leader:
+				scores.append(int(line))
+			print(scores)
+			leader.close()
+
+			quicksort(scores, 0, (len(scores)-1))
+			scores.reverse()
+			print(scores)
+
+			hasleadered = True
+
+		myfont2.render_to(screen, (225, 500), "Top 10 Scores:", (97, 33, 33))
+		for i in range(5):
+			myfont3.render_to(screen, (225, (580 + (40*i))), str(i + 1) + ") " + str(scores[i]), (97, 33, 33))
+			myfont3.render_to(screen, (500, (580 + (40*i))), str(i + 6) + ") " + str(scores[i + 5]), (97, 33, 33))
+		
 	pygame.time.Clock().tick()
 	pygame.display.flip()
-
-
-
-
-
 
 pygame.quit ()
