@@ -10,10 +10,11 @@ screen = pygame.display.set_mode((width, height))
 background_colour = 130, 209, 209
 gravity = (math.pi, 0.2)
 drag = 0.999
-wallasticity = 0.85
+wallasticity = 0.5
 elasticity = 0.85
 mass_of_air = 0.2
 score = 0
+gors = None
 
 def loadimg(img):
   return pygame.image.load(img).convert_alpha()
