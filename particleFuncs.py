@@ -12,9 +12,8 @@ gravity = (math.pi, 0.2)
 drag = 0.999
 wallasticity = 0.5
 elasticity = 0.85
-mass_of_air = 0.2
+mass_of_air = 0.20
 score = 0
-gors = None
 
 def loadimg(img):
   return pygame.image.load(img).convert_alpha()
@@ -104,7 +103,6 @@ class Particle:
 		self.size = size
 		self.mass = mass
 		self.colour = (255, 0, 0)
-		self.thickness = 500
 		self.speed = 0.5
 		self.angle = 0
 		self.drag = (self.mass/(self.mass + mass_of_air)) ** self.size
@@ -161,10 +159,10 @@ class Goal:
 		self.x = position
 		self.width = width
 		self.score = score
-		self.g = random.randint(self.score,255)
-		self.b = random.randint(self.score,255)
-		self.colour = (0, self.g, self.b)
+		self.green = random.randint(self.score,255)
+		self.blue = random.randint(self.score,255)
+		self.colour = (0, self.green, self.blue)
 		self.rect = pygame.Rect((self.x, (height-50)), (self.width, 50))
 	def display(self):
 		pygame.draw.rect(screen, self.colour, self.rect)
-		myfont.render_to(screen, ((self.x + self.width/2)-10, (height-25)), str(self.score), (255, 255-self.g, 255-self.b))
+		myfont.render_to(screen, ((self.x + self.width/2)-10, (height-25)), str(self.score), (255, 255-self.green, 255-self.blue))
